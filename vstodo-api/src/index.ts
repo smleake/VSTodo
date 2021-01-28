@@ -14,7 +14,7 @@ import { Todo } from "./entities/Todos";
 import { isAuth } from "./isAuth";
 
 const main = async () => { 
-    await createConnection({ //come from typeorm, creating a connection to our db
+    await createConnection({ //comes from typeorm, creating a connection to our db
         type: 'postgres',
         database: 'vstodo',
         entities: [join(__dirname, './entities/*.*')], //joins 2 paths for reading information into the db
@@ -24,7 +24,8 @@ const main = async () => {
    
     const app = express();
     app.use(cors({ origin: "*" }));
-    // passport ------------------------
+    
+    // passport ------------------------------------------------------------------
     app.use(passport.initialize());
     //for parsing the body of the todos
     app.use(express.json());
@@ -48,7 +49,10 @@ const main = async () => {
             else{
                 user = await User.create({ 
                     name: profile.displayName,
-                    githubID: profile.id }).save();
+                    githubID: profile.id,
+                    profileURL: profile.profileUrl,
+                    profilePicURL: (profile.photos) ? profile.photos![0].value : undefined,
+                }).save();
             }
             //callback
             cb(null, {
@@ -73,7 +77,7 @@ const main = async () => {
         res.redirect(`http://localhost:54321/auth/${req.user.accessToken}`);
       }
     ); 
-    // end of passport ----------------------
+    // end of passport ---------------------------------------------------------------
 
     // this route basically checks to see if the user is valid or not
     app.get('/me', async ( req, res ) =>{
@@ -104,17 +108,36 @@ const main = async () => {
         const user = await User.findOne(userID);
         res.send({ user });
     })
-    app.get("/todo", isAuth, async ( req: any, res ) =>{
+    // todo CRUD ---------------------------------------------------------------------------------
+    app.get("/todo", isAuth, async (req, res) =>{
         const todos = await Todo.find({where: {creatorID: req.userID}, order: {id: "DESC"}});
         res.send({ todos })
     })
-    app.post("/todo", isAuth, async (req: any, res) => {
+    app.delete("/todo", isAuth, async (req, _res) => {
+        console.log(req.body.text)
+        Todo.delete({id: req.body.text})
+    })
+    app.post("/todo", isAuth, async (req, res) => {
         const todo = await Todo.create({
           task: req.body.text,
           creatorID: req.userID,
         }).save();
         res.send({ todo });
     });
+    app.put("/todo", isAuth, async (req, res) => {
+        const todo = await Todo.findOne(req.body.id);
+        if(!todo){
+            res.send({todo: null});
+            return;
+        }
+        if(todo.creatorID !== req.userID){
+            throw new Error("Not authorized");
+        }
+        todo .completed = !todo?.completed
+        await todo.save();
+        res.send({ todo });
+    })
+    // end of todo CRUD --------------------------------------------------------------------------
     app.get('/', (_req, res) => {
         res.send("hello yoooo");
     })

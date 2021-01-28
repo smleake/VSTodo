@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import jwt from 'jsonwebtoken'
-
+//middleware
 export const isAuth: RequestHandler<{}, any, any, {}> = (req, _, next) => {
     const authHeader = req.headers.authorization
         if(!authHeader) {
@@ -12,7 +12,7 @@ export const isAuth: RequestHandler<{}, any, any, {}> = (req, _, next) => {
         }
         try {
            const payload: any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-           (req as any).userID = payload.userID
+           req.userID = payload.userID
            next();
            return;
         } catch{}

@@ -41,15 +41,6 @@
 		},
 		"commands": [
 			{
-				"command": "vstodo.helloWorld",
-				"title": "Hello World"
-			},
-			{
-				"command": "vstodo.askQuestion",
-				"category": "VSTodo",
-				"title": "HEY"
-			},
-			{
 				"command": "vstodo.refresh",
 				"category": "VSTodo",
 				"title": "refresh"
@@ -58,11 +49,6 @@
 				"command": "vstodo.addTodo",
 				"category": "VSTodo",
 				"title": "Add todo from selection"
-			},
-			{
-				"command": "vstodo.authenticate",
-				"category": "VSTodo",
-				"title": "Authenticate"
 			}
 		]
 	},

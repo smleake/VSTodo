@@ -2,7 +2,9 @@
   "name": "vstodo-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "engines": {
+		"vscode": "^1.52.0"
+	},
   "scripts": {
     "watch": "tsc -w",
     "dev": "nodemon dist/index.js"

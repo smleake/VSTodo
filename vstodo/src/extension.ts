@@ -1,16 +1,12 @@
-
 import * as vscode from 'vscode';
-import { auth } from './auth';
-import { FirstPanel } from "./firstPanel"
 import { SidebarProvider } from "./SideBarProvider"
 import { TokenManager } from './TokenManager';
+
 
 export function activate(context: vscode.ExtensionContext) {
 	TokenManager.globalState = context.globalState;
 	context.subscriptions.push(
 		vscode.commands.registerCommand("vstodo.refresh", async ()=> {
-			// FirstPanel.kill();
-			// FirstPanel.createOrShow(context.extensionUri);
 			await vscode.commands.executeCommand("workbench.action.closeSidebar")
 			await vscode.commands.executeCommand("workbench.view.extension.vstodo-sidebar-view")
 			setTimeout(() => {
@@ -23,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
 			"vstodo-sidebar", //id in package.json
-			sideBarProvider
+			sideBarProvider,
 		)
 	)
 	//generate icon for add todo button

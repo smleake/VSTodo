@@ -1,0 +1,68 @@
+.completed{
+	text-decoration: line-through;
+}
+.loading {
+	width: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+ul{
+    margin: 1em 0;
+}
+.todo{
+    display: flex;
+    align-self: flex-start;
+}
+
+.todo li:hover{
+    cursor: pointer;
+	font-weight: 800;
+}
+.todo li{
+    list-style: circle;
+}
+
+.todo-container{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+.img-container{
+    margin-right: 12px;
+    white-space: nowrap;
+}
+.empty-todos{
+    text-align: center;
+    margin: 1em 0;
+}
+.trash-icon{
+    display: flex;
+    align-self: flex-end;
+    opacity: 0;
+    margin-right: .5em;
+}
+.trash-icon:hover{
+	cursor: pointer;
+	color: #fff;
+	font-weight: 800;
+}
+.todo-container:hover .trash-icon{
+    opacity: 1;
+}
+
+.profilePhoto{
+    width: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 1em;
+}
+.user-container{
+    display: flex;
+    align-items: center;
+    margin-top: 2em;
+}
+.user-name{
+    font-size: calc(1vw + 1vh + .5vmin);
+    overflow: scroll;
+}

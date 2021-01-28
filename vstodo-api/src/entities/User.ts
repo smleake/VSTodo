@@ -8,6 +8,12 @@ export class User extends BaseEntity {
 
     @Column("text", { nullable: true })//incase display name is null
     name: string;
+    
+    @Column("text")
+    profileURL: string;
+
+    @Column("text", { nullable: true })
+    profilePicURL: string;
 
     @Column("text", { unique: true })
     githubID: string;
